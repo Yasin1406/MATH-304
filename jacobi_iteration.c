@@ -5,9 +5,9 @@
 #define n 3
 #define EPS 1e-6
 
-double mat[n][n]={{9,22,18},{8,10,9},{19,9,6}},t_mat[n][n],S[n][n],D[n][n],t_S[n][n],temp[n][n];
+double mat[n][n]={{9,22,18},{8,10,9},{19,9,6}},t_mat[n][n],S1[n][n],D[n][n],t_S1[n][n],temp[n][n];
 double eigen_value[n];
-double eigen_vector[n][n];
+double S[n][n];
 bool is_diagonal();
 
 void get_eigen_value();
@@ -21,10 +21,10 @@ int main(){
     for(int i=0;i<n;i++){
         for(int j=0;j<n;j++){
             if(i==j){
-                eigen_vector[i][j]=1;
+                S[i][j]=1;
             }
             else{
-                eigen_vector[i][j]=0;
+                S[i][j]=0;
             }
         }
     }
@@ -41,15 +41,24 @@ int main(){
 void get_eigen_value(){
     int inI,inJ,i,j;
     double max,theta;
-    
+    for(i=0;i<n;i++){
+            for(j=0;j<n;j++){
+                if(i==j){
+                    S1[i][j]=1;
+                }
+                else{
+                    S1[i][j]=0;
+                }
+            }
+        }
     while(1){
         for(i=0;i<n;i++){
             for(j=0;j<n;j++){
                 if(i==j){
-                    S[i][j]=1;
+                    S1[i][j]=1;
                 }
                 else{
-                    S[i][j]=0;
+                    S1[i][j]=0;
                 }
             }
         }
@@ -75,10 +84,10 @@ void get_eigen_value(){
         else{
             theta=0.5*atan((2*D[inI][inJ])/fabs(D[inI][inI]-D[inJ][inJ]));
         }
-        S[inI][inJ]=-sin(theta);
-        S[inJ][inI]=sin(theta);
-        S[inI][inI]=cos(theta);
-        S[inJ][inJ]=cos(theta);
+        S1[inI][inJ]=-sin(theta);
+        S1[inJ][inI]=sin(theta);
+        S1[inI][inI]=cos(theta);
+        S1[inJ][inJ]=cos(theta);
         transpose_S();
         multiplication1();
         multiplication2();
@@ -86,12 +95,19 @@ void get_eigen_value(){
         if(is_diagonal()){
             for(j=0;j<n;j++){
                 for(i=0;i<n;i++){
-                    eigen_vector[i][j]/=eigen_vector[n-1][j];
+                    S[i][j]/=S[n-1][j];
                     // D[i][j]/=D[n-1][j];
                 }
             }
             break;
         }
+    }
+    printf("D:\n");
+    for(i=0;i<n;i++){
+        for(j=0;j<n;j++){
+            printf("%.2f ",D[i][j]);
+        }
+        printf("\n");
     }
     printf("Eigenvalues: ");
     for(i=0;i<n;i++){
@@ -103,7 +119,7 @@ void get_eigen_value(){
 void transpose_S(){
     for(int i=0;i<n;i++){
         for(int j=0;j<n;j++){
-            t_S[i][j]=S[j][i];
+            t_S1[i][j]=S1[j][i];
         }
     }
 }
@@ -113,7 +129,7 @@ void multiplication1(){
         for(int j=0;j<n;j++){
             temp[i][j]=0;
             for(int k=0;k<n;k++){
-                temp[i][j]+=t_S[i][k]*D[k][j];
+                temp[i][j]+=t_S1[i][k]*D[k][j];
             }
         }
     }
@@ -124,7 +140,7 @@ void multiplication2(){
         for(int j=0;j<n;j++){
             D[i][j]=0;
             for(int k=0;k<n;k++){
-                D[i][j]+=temp[i][k]*S[k][j];
+                D[i][j]+=temp[i][k]*S1[k][j];
             }
         }
     }
@@ -135,13 +151,13 @@ void multiplication3(){
         for(int j=0;j<n;j++){
             temp[i][j]=0;
             for(int k=0;k<n;k++){
-                temp[i][j]+=eigen_vector[i][k]*S[k][j];
+                temp[i][j]+=S[i][k]*S1[k][j];
             }
         }
     }
     for(int i=0;i<n;i++){
         for(int j=0;j<n;j++){
-            eigen_vector[i][j]=temp[i][j];
+            S[i][j]=temp[i][j];
         }
     }
 }
