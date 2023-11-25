@@ -27,6 +27,7 @@ int main(){
     for(int i=1;i<n;i++){
         printf(", %lf",X_new[i]);
     }
+
     printf(" )^T\n");
     return 0;
 }
