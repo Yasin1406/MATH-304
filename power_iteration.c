@@ -22,10 +22,10 @@ int main(){
     printf("%2d\t|  %7lf\t%7lf\t%7lf\t|\n",iter++,X_old[0],X_old[1],X_old[2]);
     power_iteration();
     printf("- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - \n");
-    printf("Approximate eigenvalue = %lf\n",lambda_old);
-    printf("Corresponding eigenvectors = ( %lf",X_old[0]);
+    printf("Approximate eigenvalue = %lf\n",lambda_new);
+    printf("Corresponding eigenvectors = ( %lf",X_new[0]);
     for(int i=1;i<n;i++){
-        printf(", %lf",X_old[i]);
+        printf(", %lf",X_new[i]);
     }
     printf(" )^T\n");
     return 0;
@@ -42,11 +42,15 @@ void power_iteration(){
     lambda_new=get_max();
     for(i=0;i<n;i++){
         X_new[i]/=lambda_new;
-        X_old[i]=X_new[i];
+        // X_old[i]=X_new[i];
     }
     printf("%2d\t|  %7lf\t%7lf\t%7lf\t|  %lf\n",iter++,X_new[0],X_new[1],X_new[2],lambda_new);
     if(fabs(lambda_new-lambda_old)<EPS){
         return;
+    }   //else
+    for(i=0;i<n;i++){
+        // X_new[i]/=lambda_new;
+        X_old[i]=X_new[i];
     }
     lambda_old=lambda_new;
     power_iteration();

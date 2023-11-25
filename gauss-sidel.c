@@ -3,7 +3,7 @@
 #include<stdlib.h>
 #include<stdbool.h>
 #define n 3
-#define EPS 10e-6
+#define EPS 10e-4
 
 int iter=0;
 double col_new[n]={0,0,0},col_old[n]={0,0,0};

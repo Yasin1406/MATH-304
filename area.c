@@ -10,7 +10,7 @@ bool root_exists(double a,double b);
 double bisection(double a,double b);
 
 int main(){
-	double a=bisection(0.5,1.25);
+	double a=bisection(1,2.5);
     int n=10,i,j;
     double h=a/n;
     double x[n+1],sumX=0;

@@ -16,9 +16,9 @@ int main(){
         for(j=0;j<column;j++){
             scanf("%lf",&mat[i][j]);
             t_mat[j][i]=mat[i][j];
+            new_const_col[j]=0;
         }
         scanf("%lf",&const_col[i]);
-        new_const_col[i]=0;
     }
     printf("The augmented matrix:\n");
     for(i=0;i<row;i++){
@@ -29,7 +29,7 @@ int main(){
     }
     for(i=0;i<column;i++){
         for(j=0;j<column;j++){
-            new_mat[i][j]=0;
+            new_mat[i][j]=0;    //Product of t_mat and mat
         }
     }
     for(i=0;i<column;i++){
